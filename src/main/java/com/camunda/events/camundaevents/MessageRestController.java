@@ -70,7 +70,7 @@ public class MessageRestController {
         Map<String, String> map = new HashMap<>();
         ArrayList<String> mailList = new ArrayList<>();
         map.put("messageCode", (String) job.getVariablesAsMap().get("messageCode"));
-        ResponseEntity<Map> requestEntity = restTemplate.getForEntity("http://"+serverUrl+":8088/alert/template/{messageCode}", Map.class, map);
+        ResponseEntity<Map> requestEntity = restTemplate.getForEntity("http://"+serverUrl+":8058/alert/template/{messageCode}", Map.class, map);
         Map<String, Object> opMap = new HashMap<>();
         String htmlTemplate = (String) requestEntity.getBody().get("htmlTemplate");
         System.out.println("htmlTemplate "+(String) requestEntity.getBody().get("htmlTemplate"));
@@ -92,7 +92,7 @@ public class MessageRestController {
         Map<String, Object> map = new HashMap<>();
         map.put("messageBody", (String) job.getVariablesAsMap().get("htmlTemplate"));
         map.put("recipient", (ArrayList<ArrayList<String>>) job.getVariablesAsMap().get("recipient"));
-        ResponseEntity<Boolean> requestEntity = restTemplate.postForEntity("http://"+serverUrl+":8088/alert/email", map, Boolean.class);
+        ResponseEntity<Boolean> requestEntity = restTemplate.postForEntity("http://"+serverUrl+":8058/alert/email", map, Boolean.class);
         jobClient.newCompleteCommand(job.getKey()).send().join();
     }
 }
